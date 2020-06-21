@@ -19,20 +19,21 @@ func main() {
 				Amount: 1,
 				Date: time.Now().Unix(),
 				Mcc: "5011",
-				Status: "done",
+				Status: "В обработке",
 			},
 			&card.Transaction{
 				Id: "2",
 				Amount: 10,
 				Date: time.Now().Unix(),
 				Mcc: "5012",
-				Status: "in progress",
+				Status: "В обработке",
 			},
 		},
 	}
 	master.Transactions = append(master.Transactions,
-		&card.Transaction{"3", 100, time.Now().Unix(), "5011", "in progress"})
-	card.AddTransaktion(master, &card.Transaction{"4", 1000, time.Now().Unix(), "5011", "done"})
+		&card.Transaction{"3", 100, time.Now().Unix(), "5011", "В обработке"})
+	card.AddTransaktion(master,
+		&card.Transaction{"4", 1000, time.Now().Unix(), "5011", "Выполнено"})
 
 
 	fmt.Println(master)
@@ -43,9 +44,11 @@ func main() {
 	fmt.Println(master.Transactions[3])
 
 	var mcc []string
-	mcc = append(mcc, "5014", "5012", "5015")
+	mcc = append(mcc, "5011", "5014", "5015")
 	fmt.Println(mcc)
 	fmt.Println(card.SumByMCC(master.Transactions, mcc))
 
+	category := card.TranslateMCC(master.Transactions[0].Mcc)
+	fmt.Println(category)
 }
 
